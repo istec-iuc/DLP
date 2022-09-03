@@ -1,0 +1,195 @@
+{% extends 'base/admin/base.html' %}
+{% block content %}
+<style>
+    /* The container must be positioned relative: */
+    #id_rule {
+    position: relative;
+    font-family: Arial;
+    }
+
+    #id_rule select {
+    display: none; /*hide original SELECT element: */
+    }
+
+    select {
+    background-color: rgb(255, 30, 71);
+    }
+
+    /* Style the arrow inside the select element: */
+    select:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+    }
+
+    /* Point the arrow upwards when the select box is open (active): */
+    select.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+    }
+
+    /* style the items (options), including the selected item: */
+    .select-items div,select {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+    display: none;
+    }
+
+    .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+    }
+</style>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    {% include 'base/admin/sidebar.html' %}
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'base/admin/topbar.html' %}
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                {% include 'base/message.html' %}
+
+                <h1 class="h3 mb-2 text-gray-800">ADD RULE</h1>
+                <p class="mb-4">ICACLS <br>
+                    Displays or modifies discretionary access control lists (DACLs) on specified files, and applies stored DACLs to files in specified directories.<!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        ICACLS HELP
+                    </button>
+                </p>
+                <div class="col-lg-7">
+                    <form class="user" method="post">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label for="exampleFormControlTextarea1" class="form-label ">Name</label>
+                                {{form.name}}
+                            </div>
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <label for="exampleFormControlTextarea1" class="form-label ">Permission</label>
+                                {{form.permission}}
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1" class="form-label ">Accsess</label>
+                            {{form.accsess}}
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            ADD
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        {% include 'base/admin/footer.html' %}
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">ICACLS HELP</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-start fs-5 fw-bolder">
+                ICACLS name [/grant[:r] Sid:perm[...]]
+                [/deny Sid:perm [...]]
+                [/remove[:g|:d]] Sid[...]] [/T] [/C] [/L] [/Q]
+                [/setintegritylevel Level:policy[...]]</p>
+                
+                <p class="text-start fs-5 fw-bold">
+                /grant[:r] Sid:perm grants the specified user access rights. With :r,
+                the permissions replace any previously granted explicit permissions.
+                Without :r, the permissions are added to any previously granted
+                explicit permissions.</p>
+                
+                <p class="text-start fs-5 fw-bold">
+                /deny Sid:perm explicitly denies the specified user access rights.
+                An explicit deny ACE is added for the stated permissions and
+                the same permissions in any explicit grant are removed.</p>
+                
+                <p class="text-start fs-5 fw-bold">
+                /remove[:[g|d]] Sid removes all occurrences of Sid in the ACL. With
+                :g, it removes all occurrences of granted rights to that Sid. With
+                :d, it removes all occurrences of denied rights to that Sid.</p>
+                
+                <p class="text-start fs-5 fw-bold">
+                /setintegritylevel [(CI)(OI)]Level explicitly adds an integrity
+                ACE to all matching files. The level is to be specified as one
+                of:
+                L[ow]
+                M[edium]
+                H[igh]
+                Inheritance options for the integrity ACE may precede the level
+                and are applied only to directories.</p>
+
+                <p class="text-start fs-5 fw-bold">
+                perm is a permission mask and can be specified in one of two forms:
+                a sequence of simple rights:
+                N - no access
+                F - full access
+                M - modify access
+                RX - read and execute access
+                R - read-only access
+                W - write-only access
+                D - delete access</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

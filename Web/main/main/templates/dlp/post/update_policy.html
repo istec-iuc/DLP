@@ -1,0 +1,132 @@
+{% extends 'base/admin/base.html' %}
+{% block content %}
+<style>
+    /* The container must be positioned relative: */
+    #id_rule {
+    position: relative;
+    font-family: Arial;
+    }
+
+    #id_rule select {
+    display: none; /*hide original SELECT element: */
+    }
+
+    select {
+    background-color: rgb(255, 30, 71);
+    }
+
+    /* Style the arrow inside the select element: */
+    select:after {
+    position: absolute;
+    content: "";
+    top: 14px;
+    right: 10px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+    }
+
+    /* Point the arrow upwards when the select box is open (active): */
+    select.select-arrow-active:after {
+    border-color: transparent transparent #fff transparent;
+    top: 7px;
+    }
+
+    /* style the items (options), including the selected item: */
+    .select-items div,select {
+    color: #ffffff;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    cursor: pointer;
+    }
+
+    /* Style items (options): */
+    .select-items {
+    position: absolute;
+    background-color: DodgerBlue;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+    display: none;
+    }
+
+    .select-items div:hover, .same-as-selected {
+    background-color: rgba(0, 0, 0, 0.1);
+    }
+</style>
+<!-- Page Wrapper -->
+<div id="wrapper">
+    {% include 'base/admin/sidebar.html' %}
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            {% include 'base/admin/topbar.html' %}
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                {% include 'base/message.html' %}
+
+                <h1 class="h3 mb-2 text-gray-800">UDATE POLICY</h1>
+                <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                    For more information about DataTables, please visit the <a target="_blank"
+                        href="https://datatables.net">official DataTables documentation</a>.</p>
+                        <div class="col-lg-7">
+                            <form class="user" method="post">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label for="exampleFormControlTextarea1" class="form-label ">Name</label>
+                                        {{form.name}}
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label for="exampleFormControlTextarea1" class="form-label ">Logs</label>
+                                        {{form.logs}}
+                                    </div>
+                                    
+                                </div>
+                                
+                                
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1" class="form-label ">Rule</label>
+                                    {{form.rule}}
+                                </div>
+                                
+                               
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Update
+                                </button>
+                            </form>
+                        </div>
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        {% include 'base/admin/footer.html' %}
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+{% endblock content %}
