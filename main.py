@@ -15,14 +15,16 @@ class Watcher:
         event_handler = Scanner.Handler()
         self.observer.schedule(event_handler, self.path, recursive=True)
         self.observer.start()
+        self.observer.join()
         try:
             while True:
                 time.sleep(1)
+                
         except:
             self.observer.stop()
-            print("Error")
+            print("Error")    
 
-        self.observer.join()
+        
 
 
 def is_admin():
@@ -42,4 +44,5 @@ if __name__ == "__main__":
 
 
     else:
+        print("admin")
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
